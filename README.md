@@ -4,13 +4,11 @@
 
 ## Install
 
-Instantiate the module with:
-
-    add-module ghcr.io/mrmarkuz/calcom:latest 1
+The app is installable via Software Center after adding the [mrmarkuz repo](https://repo.mrmarkuz.com/).
 
 ## Configure
 
-Configure the FQDN and browse to it.
+Configure the FQDN and browse to it to create an admin user.
 
 ## Uninstall
 
