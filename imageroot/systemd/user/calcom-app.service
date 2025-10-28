@@ -33,7 +33,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/calcom-app.pid \
     --env DATABASE_URL="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/calcom" \
     --env DATABASE_DIRECT_URL="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/calcom" \
     --env CSP_POLICY=non-strict \
-    ${CALCOM_IMAGE}
+    ${CAL_COM_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/calcom-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP calcom-app
 SyslogIdentifier=%u
