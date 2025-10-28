@@ -17,10 +17,14 @@ Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/calcom-app.pid %t/calcom-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
+ExecStartPre=/bin/sh -c 'grep -q NEXTAUTH_SECRET secret.env || echo "NEXTAUTH_SECRET=`openssl rand -hex 64`" >> secret.env'
+ExecStartPre=/bin/sh -c 'grep -q CALENDSO_ENCRYPTION_KEY secret.env || echo "CALENDSO_ENCRYPTION_KEY=`openssl rand -hex 64`" >> secret.env'
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/calcom-app.pid \
     --cidfile %t/calcom-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/calcom.pod-id --replace -d --name  calcom-app \
+    --env-file=%S/state/secret.env \
     --env NEXT_PUBLIC_WEBAPP_URL=https://${TRAEFIK_HOST} \
+#    --env ALLOWED_HOSTNAMES=${TRAEFIK_HOST} \
     --env NEXT_PUBLIC_API_V2_URL=http://localhost:5555/api/v2 \
     --env NEXT_PUBLIC_LICENSE_CONSENT="" \
     #--env NEXT_PUBLIC_WEBSITE_TERMS_URL: ${NEXT_PUBLIC_WEBSITE_TERMS_URL} \
@@ -28,11 +32,10 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/calcom-app.pid \
     #--env NEXT_PUBLIC_SINGLE_ORG_SLUG: ${NEXT_PUBLIC_SINGLE_ORG_SLUG} \
     --env ORGANIZATIONS_ENABLED=0 \
     --env CALCOM_TELEMETRY_DISABLED=0 \
-    --env NEXTAUTH_SECRET=76tQH9+xZAfGKo1keCs8K5mhkej773QOOuDLY/Lbrdk= \
-    --env CALENDSO_ENCRYPTION_KEY=cc08720703a094fd023560b29ef3f13b \
     --env DATABASE_URL="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/calcom" \
     --env DATABASE_DIRECT_URL="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/calcom" \
     --env CSP_POLICY=non-strict \
+#    --env NODE_TLS_REJECT_UNAUTHORIZED=0 \
     ${CAL_COM_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/calcom-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP calcom-app
