@@ -1,19 +1,20 @@
 {
-  "name": "calcom",
+  "name": "Cal.com",
   "description": {
-    "en": "My calcom module"
+    "en": "Cal.com is an open source scheduling platform",
+    "de": "Cal.com ist eine Open Source Terminplanungssoftware"
   },
-  "categories": [],
+  "categories": ["monitoring"],
   "authors": [
     {
-      "name": "Name Surname",
-      "email": "author@yourmail.org"
+      "name": "Markus Neuberger",
+      "email": "dev@markusneuberger.at"
     }
   ],
   "docs": {
-    "documentation_url": "https://docs.calcom.com/",
-    "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/author/ns8-calcom"
+    "documentation_url": "https://cal.com/docs",
+    "bug_url": "https://community.nethserver.org",
+    "code_url": "https://github.com/mrmarkuz/ns8-calcom"
   },
-  "source": "ghcr.io/nethserver/calcom"
+  "source": "ghcr.io/mrmarkuz/calcom"
 }
