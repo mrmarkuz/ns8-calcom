@@ -20,7 +20,6 @@ ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/calcom-app.pid \
     --cidfile %t/calcom-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/calcom.pod-id --replace -d --name  calcom-app \
-    --volume calcom-app:/var/www/html/:Z \
     --env NEXT_PUBLIC_WEBAPP_URL=https://${TRAEFIK_HOST} \
     --env NEXT_PUBLIC_API_V2_URL=http://localhost:5555/api/v2 \
     --env NEXT_PUBLIC_LICENSE_CONSENT="" \
@@ -34,7 +33,7 @@ ExecStart=/usr/bin/podman run --conmon-pidfile %t/calcom-app.pid \
     --env DATABASE_URL="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/calcom" \
     --env DATABASE_DIRECT_URL="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/calcom" \
     --env CSP_POLICY=non-strict \
-    ${CAL_COM_IMAGE}
+    ${CALCOM_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/calcom-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP calcom-app
 SyslogIdentifier=%u
