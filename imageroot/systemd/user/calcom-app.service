@@ -17,8 +17,8 @@ Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/calcom-app.pid %t/calcom-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
-ExecStartPre=/bin/sh -c 'grep -q NEXTAUTH_SECRET secret.env || echo "NEXTAUTH_SECRET=`openssl rand -hex 64`" >> secret.env'
-ExecStartPre=/bin/sh -c 'grep -q CALENDSO_ENCRYPTION_KEY secret.env || echo "CALENDSO_ENCRYPTION_KEY=`openssl rand -hex 64`" >> secret.env'
+ExecStartPre=/bin/sh -c 'grep -q NEXTAUTH_SECRET secret.env || echo "NEXTAUTH_SECRET=`openssl rand -base64 32`" >> secret.env'
+ExecStartPre=/bin/sh -c 'grep -q CALENDSO_ENCRYPTION_KEY secret.env || echo "CALENDSO_ENCRYPTION_KEY=`openssl rand -base64 24`" >> secret.env'
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/calcom-app.pid \
     --cidfile %t/calcom-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/calcom.pod-id --replace -d --name  calcom-app \
