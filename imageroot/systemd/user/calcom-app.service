@@ -10,9 +10,9 @@ After=calcom.service postgresql-app.service redis-app.service
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
-EnvironmentFile=%S/state/environment
-EnvironmentFile=-%S/state/smarthost.env
-WorkingDirectory=%S/state
+EnvironmentFile=%E/state/environment
+EnvironmentFile=-%E/state/smarthost.env
+WorkingDirectory=%E/state
 Restart=always
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/calcom-app.pid %t/calcom-app.ctr-id
@@ -22,7 +22,7 @@ ExecStartPre=/bin/sh -c 'grep -q CALENDSO_ENCRYPTION_KEY secret.env || echo "CAL
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/calcom-app.pid \
     --cidfile %t/calcom-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/calcom.pod-id --replace -d --name  calcom-app \
-    --env-file=%S/state/secret.env \
+    --env-file=%E/state/secret.env \
     --env NEXT_PUBLIC_WEBAPP_URL=https://${TRAEFIK_HOST} \
 #    --env ALLOWED_HOSTNAMES=${TRAEFIK_HOST} \
     --env NEXT_PUBLIC_API_V2_URL=http://localhost:5555/api/v2 \
