@@ -42,7 +42,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
 	--label="org.nethserver.min-core=3.12.4-0" \
-    --label="org.nethserver.images=docker.io/postgres:15.10-alpine3.19 docker.io/redis:8.2.2 docker.io/calcom/cal.com:v6.2.0" \
+    --label="org.nethserver.images=docker.io/postgres:15.10-alpine3.19 docker.io/redis:8.2.7 docker.io/calcom/cal.com:v6.2.0" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
